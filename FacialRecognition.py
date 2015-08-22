@@ -11,10 +11,14 @@ import cv2
 import sys
 
 cascPath = sys.argv[1]
+cameraIndex = 0
+if len(sys.argv) > 2:
+    cameraIndex = int(sys.argv[2])
 print("Cascade file will be loaded from :" + cascPath)
+print("Camera index: " + str(cameraIndex))
 faceCascade = cv2.CascadeClassifier(cascPath)
 
-video_capture = cv2.VideoCapture(0)
+video_capture = cv2.VideoCapture(cameraIndex)
 
 while True:
     # Capture frame-by-frame
@@ -27,12 +31,12 @@ while True:
         scaleFactor=1.1,
         minNeighbors=5,
         minSize=(30, 30),
-        flags=cv2.CASCADE_SCALE_IMAGE # New constant for opencv 3.0.0
+        flags=cv2.CASCADE_SCALE_IMAGE  # New constant for opencv 3.0.0
     )
 
     # Draw a rectangle around the faces
     for (x, y, w, h) in faces:
-        cv2.rectangle(frame, (x, y), (x+w, y+h), (0, 255, 0), 2)
+        cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 2)
 
     # Display the resulting frame
     cv2.imshow('Video', frame)
